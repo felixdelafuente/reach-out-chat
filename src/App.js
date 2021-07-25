@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./App.css";
+import logo from "./assets/logo.png";
 
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -9,13 +10,13 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 firebase.initializeApp({
-  apiKey: "AIzaSyCk0GW44Loy2uj5iECM-i_q-8GBujDTSmE",
-  authDomain: "reachout-e404b.firebaseapp.com",
-  databaseURL: "https://reachout-e404b.firebaseio.com",
-  projectId: "reachout-e404b",
-  storageBucket: "reachout-e404b.appspot.com",
-  messagingSenderId: "469379204606",
-  appId: "1:469379204606:web:b741893272115047756caf",
+  apiKey: "AIzaSyCk0GW44Loy2uj5iECM-i_q-8GBujDTSmE", // Change this
+  authDomain: "reachout-e404b.firebaseapp.com", // Change this
+  databaseURL: "https://reachout-e404b.firebaseio.com", // Change this
+  projectId: "reachout-e404b", // Change this
+  storageBucket: "reachout-e404b.appspot.com", // Change this
+  messagingSenderId: "469379204606", // Change this
+  appId: "1:469379204606:web:b741893272115047756caf", // Change this
 });
 
 const auth = firebase.auth();
@@ -27,10 +28,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <img
-          src="src\assets\logo.png"
-          class="nav-logo"
-        />
+        <img src={logo} className="nav-logo" />
         <SignOut />
       </header>
 
@@ -54,7 +52,7 @@ function SignIn() {
 
 function SignOut() {
   return (
-    auth.currentUser && <button onClick={() => auth.signOut()}>LOGOUT</button>
+    auth.currentUser && <button className="logout" onClick={() => auth.signOut()}>LOGOUT</button>
   );
 }
 
@@ -62,7 +60,7 @@ function ChatRoom() {
   const dummy = useRef();
 
   const messagesRef = firestore.collection("messages");
-  const query = messagesRef.orderBy("createdAt").limit(25);
+  const query = messagesRef.orderBy("createdAt");
 
   const [messages] = useCollectionData(query, { idField: "id" });
 
@@ -98,7 +96,7 @@ function ChatRoom() {
           value={formValue}
           onChange={(e) => setFormValue(e.target.value)}
         />
-        <button type="submit">Send</button>
+        <button type="submit" className="send">Send</button>
       </form>
     </React.Fragment>
   );
